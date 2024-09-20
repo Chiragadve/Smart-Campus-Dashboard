@@ -1,101 +1,155 @@
+"use client"; // Enable client-side features
+
 import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [slideIndex, setSlideIndex] = useState(0);
+  const slidesRef = useRef([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  useEffect(() => {
+    const showSlides = () => {
+      slidesRef.current.forEach((slide) => (slide.style.display = "none"));
+      slidesRef.current[slideIndex].style.display = "block";
+    };
+
+    const changeSlide = () => {
+      setSlideIndex((prevIndex) => (prevIndex + 1) % slidesRef.current.length);
+    };
+
+    showSlides();
+
+    const interval = setInterval(() => {
+      changeSlide();
+      showSlides();
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [slideIndex]);
+
+  return (
+    <div>
+      {/* Navbar */}
+      <nav className="fixed top-0 left-0 w-full bg-oxford-blue-3 shadow-md z-10">
+        <div className="flex justify-between items-center h-24 px-5">
+          <a href="#" className="logo">
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/logo.png"
+              alt="logo"
+              width={200}
+              height={50}
+              className="object-contain"
             />
-            Deploy now
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <div className="nav-links flex flex-grow justify-end">
+            <ul className="flex gap-10 pr-10">
+              <li>
+                <a className="hover:text-gray-300 transition duration-300">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a className="hover:text-gray-300 transition duration-300">
+                  Events
+                </a>
+              </li>
+              <li>
+                <a className="hover:text-gray-300 transition duration-300">
+                  Cafeteria
+                </a>
+              </li>
+              <li>
+                <a className="hover:text-gray-300 transition duration-300">
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+
+      <section
+        className="relative mt-24 h-96 bg-cover bg-center" // Add margin-top to avoid navbar overlap
+        style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+      >
+        <div className="flex flex-col items-center justify-center h-full bg-black bg-opacity-50">
+          <div className="slideshow-container mt-10">
+            {[...Array(4)].map((_, index) => (
+              <div
+                key={index}
+                className="mySlides fade"
+                ref={(el) => (slidesRef.current[index] = el)}
+              >
+                <Image
+                  src={`/image${index + 1}.jpeg`}
+                  alt={`Slide ${index + 1}`}
+                  className="slide-image"
+                  width={1180} // Set width to 1180px
+                  height={368} // Set height to 400px for the banner
+                  layout="fixed" // Use fixed layout
+                />
+              </div>
+            ))}
+
+            <div className="text-center mt-4">
+              {[...Array(4)].map((_, index) => (
+                <span
+                  key={index}
+                  className="dot"
+                  onClick={() => setSlideIndex(index)}
+                ></span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <style jsx>{`
+          .mySlides {
+            display: none;
+            position: relative;
+            margin: 0 auto;
+            width: 1180px; /* Set width to 1180px */
+          }
+
+          .slide-image {
+            width: 100%;
+            height: 368px;
+            object-fit: cover;
+          }
+
+          .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s;
+          }
+
+          .dot:hover {
+            background-color: #717171;
+          }
+
+          .active {
+            background-color: #717171;
+          }
+
+          .fade {
+            animation: fade 1.5s;
+          }
+
+          @keyframes fade {
+            from {
+              opacity: 0.4;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+        `}</style>
+      </section>
     </div>
   );
 }
