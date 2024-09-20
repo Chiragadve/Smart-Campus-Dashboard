@@ -1,0 +1,27 @@
+[
+    {
+      "bus_id": "Bus 1",
+      "route": "Route A",
+      "status": "On Time",
+      "coordinates": { "lat": 19.076, "lng": 72.8777 },
+      "routeCoordinates": [
+        { "lat": 19.076, "lng": 72.8777 },
+        { "lat": 19.080, "lng": 72.879 },
+        { "lat": 19.082, "lng": 72.882 }
+      ],
+      "timing": "Every 10 mins"
+    },
+    {
+      "bus_id": "Bus 2",
+      "route": "Route B",
+      "status": "Delayed",
+      "coordinates": { "lat": 19.085, "lng": 72.882 },
+      "routeCoordinates": [
+        { "lat": 19.085, "lng": 72.882 },
+        { "lat": 19.087, "lng": 72.885 },
+        { "lat": 19.090, "lng": 72.888 }
+      ],
+      "timing": "Every 15 mins"
+    }
+  ]
+  
